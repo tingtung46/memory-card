@@ -1,9 +1,11 @@
 import { Card } from "./Card";
 import { useEffect, useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { shuffle } from "../utils/shuffle";
 
 export const Gameboard = () => {
-  const [characters, setCharacters] = useState();
+  const [characters, setCharacters] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const charasID = useMemo(
     () => [
@@ -20,6 +22,8 @@ export const Gameboard = () => {
   );
 
   useEffect(() => {
+    shuffle(charasID);
+
     const getCharas = async (charasID) => {
       try {
         const promises = charasID.map(async (id) => {
@@ -42,6 +46,7 @@ export const Gameboard = () => {
         }));
 
         setCharacters(allChara);
+        setIsLoaded(true);
       } catch (error) {
         return console.error("Fetch failed", error);
       }
@@ -50,20 +55,23 @@ export const Gameboard = () => {
     getCharas(charasID);
   }, [charasID]);
 
-  return (
-    <>
-      <section className="gameboard">
-        <div className="score">
-          <h2>Scores:</h2>
-          <h2>Best Scores:</h2>
-        </div>
+  console.log(characters);
 
-        <div className="cards-container">
-          {characters.map((chara) => {
-            return <Card chara={chara} key={chara.id} />;
-          })}
-        </div>
-      </section>
-    </>
-  );
+  if (isLoaded)
+    return (
+      <>
+        <section className="gameboard">
+          <div className="score">
+            <h2>Scores:</h2>
+            <h2>Best Scores:</h2>
+          </div>
+
+          <div className="cards-container">
+            {characters.map((chara) => {
+              return <Card chara={chara} key={chara.id} />;
+            })}
+          </div>
+        </section>
+      </>
+    );
 };
