@@ -6,6 +6,8 @@ import { shuffle } from "../utils/shuffle";
 export const Gameboard = () => {
   const [characters, setCharacters] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [scores, setScores] = useState(0);
+  const [bestScores, setBestScores] = useState(0);
 
   const charasID = useMemo(
     () => [
@@ -55,20 +57,58 @@ export const Gameboard = () => {
     getCharas(charasID);
   }, [charasID]);
 
-  console.log(characters);
+  const resetGame = (charasCopy) => {
+    setScores(0);
+
+    charasCopy.map((chara) => (chara.visited = false));
+
+    shuffle(charasCopy);
+    setCharacters(charasCopy);
+  };
+
+  const handleClick = (e) => {
+    const charasCopy = characters.slice();
+    const selectedCard = charasCopy.find(
+      (chara) => chara.mal_id === +e.currentTarget.getAttribute("data-id")
+    );
+
+    shuffle(charasCopy);
+    setCharacters(charasCopy);
+
+    if (selectedCard.visited === false) {
+      setScores((prevScores) => prevScores + 1);
+      selectedCard.visited = true;
+    } else {
+      if (scores > bestScores) {
+        setBestScores(scores);
+        resetGame(charasCopy);
+      }
+
+      if (scores < bestScores) {
+        resetGame(charasCopy);
+      }
+
+      //If all cards have been visited
+      if (scores === bestScores) {
+        resetGame(charasCopy);
+      }
+    }
+  };
 
   if (isLoaded)
     return (
       <>
         <section className="gameboard">
           <div className="score">
-            <h2>Scores:</h2>
-            <h2>Best Scores:</h2>
+            <h2>Scores: {scores}</h2>
+            <h2>Best Scores: {bestScores}</h2>
           </div>
 
           <div className="cards-container">
             {characters.map((chara) => {
-              return <Card chara={chara} key={chara.id} />;
+              return (
+                <Card handleClick={handleClick} chara={chara} key={chara.id} />
+              );
             })}
           </div>
         </section>
