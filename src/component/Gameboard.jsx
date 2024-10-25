@@ -60,10 +60,11 @@ export const Gameboard = () => {
   const resetGame = (charasCopy) => {
     setScores(0);
 
-    charasCopy.map((chara) => (chara.visited = false));
+    charasCopy.forEach((chara) => (chara.visited = false));
 
     shuffle(charasCopy);
     setCharacters(charasCopy);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleClick = (e) => {
