@@ -2,12 +2,13 @@ import { Card } from "./Card";
 import { useEffect, useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { shuffle } from "../utils/shuffle";
+import drLogo from "../assets/dr-logo.png";
 
 export const Gameboard = () => {
   const [characters, setCharacters] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [scores, setScores] = useState(0);
-  const [bestScores, setBestScores] = useState(0);
+  const [score, setScores] = useState(0);
+  const [bestScore, setBestScores] = useState(0);
 
   const charasID = useMemo(
     () => [
@@ -80,17 +81,17 @@ export const Gameboard = () => {
       setScores((prevScores) => prevScores + 1);
       selectedCard.visited = true;
     } else {
-      if (scores > bestScores) {
-        setBestScores(scores);
+      if (score > bestScore) {
+        setBestScores(score);
         resetGame(charasCopy);
       }
 
-      if (scores < bestScores) {
+      if (score < bestScore) {
         resetGame(charasCopy);
       }
 
       //If all cards have been visited
-      if (scores === bestScores) {
+      if (score === bestScore) {
         resetGame(charasCopy);
       }
     }
@@ -99,13 +100,23 @@ export const Gameboard = () => {
   if (isLoaded)
     return (
       <>
-        <section className="gameboard">
-          <div className="score">
-            <h2>Scores: {scores}</h2>
-            <h2>Best Scores: {bestScores}</h2>
+        <section className="gameboard flex flex-col">
+          <div className="bg-gradient-to-r from-red-800 to-pink-700 rounded-b-lg px-3 pt-3 pb-4 mb-6">
+            <img
+              className="w-full h-full"
+              src={drLogo}
+              alt="Danganronpa Logo"
+            />
+
+            <h2 className="font-semibold text-xl mb-5">Memory Card Game</h2>
+
+            <div className="score flex flex-row justify-center gap-x-5 font-semibold text-base">
+              <h2>Score: {score}</h2>
+              <h2>Best Score: {bestScore}</h2>
+            </div>
           </div>
 
-          <div className="cards-container">
+          <div className="cards-container flex flex-col gap-y-3.5 p-4 mx-auto">
             {characters.map((chara) => {
               return (
                 <Card handleClick={handleClick} chara={chara} key={chara.id} />
