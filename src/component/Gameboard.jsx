@@ -101,14 +101,16 @@ export const Gameboard = () => {
     return (
       <>
         <section className="gameboard flex flex-col">
-          <div className="bg-gradient-to-r from-red-800 to-pink-700 rounded-b-lg px-3 pt-3 pb-4 mb-6">
+          <div className="header bg-gradient-to-r from-red-800 to-pink-700 rounded-b-lg px-3 pt-3 pb-4 mb-6">
             <img
               className="w-full h-full"
               src={drLogo}
               alt="Danganronpa Logo"
             />
 
-            <h2 className="font-semibold text-xl mb-5">Memory Card Game</h2>
+            <h2 className="font-semibold text-xl mb-5 sm:text-2xl">
+              Memory Card Game
+            </h2>
 
             <div className="score flex flex-row justify-center gap-x-5 font-semibold text-base">
               <h2>Score: {score}</h2>
@@ -116,7 +118,7 @@ export const Gameboard = () => {
             </div>
           </div>
 
-          <div className="cards-container flex flex-col gap-y-3.5 p-4 mx-auto">
+          <div className="cards-container flex flex-col gap-y-3.5 p-4 mx-auto sm:grid sm:grid-cols-[repeat(2,_224px)] sm:gap-10">
             {characters.map((chara) => {
               return (
                 <Card handleClick={handleClick} chara={chara} key={chara.id} />

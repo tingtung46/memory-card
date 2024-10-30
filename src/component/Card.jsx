@@ -6,12 +6,16 @@ export const Card = ({ handleClick, chara }) => {
         onClick={handleClick}
         data-id={chara.mal_id}
       >
-        <img
-          className="w-full h-full rounded-md"
-          src={chara.image}
-          alt={chara.name}
-        />
-        <h2 className="text-center mt-2 text-xl font-semibold">{chara.name}</h2>
+        <div>
+          <img
+            className="w-full h-full rounded-md"
+            src={chara.image}
+            alt={chara.name}
+          />
+          <h2 className="text-center mt-2 text-xl font-semibold">
+            {chara.name}
+          </h2>
+        </div>
       </div>
     </>
   );
