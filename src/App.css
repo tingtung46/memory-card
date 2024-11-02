@@ -1,0 +1,21 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  main {
+    background-image: url('./assets/bg.jpeg');
+  }
+
+  .header {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}
+
+@media (max-width: 767px) {
+  .header {
+    background-image: linear-gradient(to right, rgb(180, 0, 0), rgb(211, 0, 116));
+  }
+}
