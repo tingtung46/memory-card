@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { shuffle } from "../utils/shuffle";
 import drLogo from "../assets/dr-logo.png";
+import monokumaDance from "../assets/loading.gif";
 
 export const Gameboard = () => {
   const [characters, setCharacters] = useState([]);
@@ -124,4 +125,11 @@ export const Gameboard = () => {
         </section>
       </>
     );
+
+  return (
+    <div className="bg-black">
+      <img src={monokumaDance} alt="Loading" className="mb-5" />
+      <h1>Loading...</h1>
+    </div>
+  );
 };
