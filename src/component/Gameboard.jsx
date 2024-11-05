@@ -28,6 +28,12 @@ export const Gameboard = () => {
   useEffect(() => {
     shuffle(charasID);
 
+    const retryFetch = () => {
+      setTimeout(async () => {
+        await getCharas(charasID);
+      }, 4000);
+    };
+
     const getCharas = async (charasID) => {
       try {
         const promises = charasID.map(async (id) => {
@@ -35,6 +41,10 @@ export const Gameboard = () => {
             `https://api.jikan.moe/v4/characters/${id}/full`,
             { mode: "cors" }
           );
+
+          if (res.status === 429) {
+            return retryFetch();
+          }
 
           return await res.json();
         });
@@ -52,7 +62,7 @@ export const Gameboard = () => {
         setCharacters(allChara);
         setIsLoaded(true);
       } catch (error) {
-        return console.error("Fetch failed", error);
+        console.error("Could not fetch character ", error);
       }
     };
 
@@ -110,8 +120,18 @@ export const Gameboard = () => {
             </h2>
 
             <div className="score flex flex-row justify-center gap-x-5 font-semibold text-base">
-              <h2>Score: {score}</h2>
-              <h2>Best Score: {bestScore}</h2>
+              <h2>
+                Score:{" "}
+                <span className="inline-block bg-white text-black ml-2 p-1">
+                  {score}
+                </span>
+              </h2>
+              <h2>
+                Best Score:{" "}
+                <span className="inline-block bg-white text-black ml-2 p-1">
+                  {bestScore}
+                </span>
+              </h2>
             </div>
           </div>
 
