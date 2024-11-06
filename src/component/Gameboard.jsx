@@ -28,13 +28,7 @@ export const Gameboard = () => {
   useEffect(() => {
     shuffle(charasID);
 
-    const retryFetch = () => {
-      setTimeout(async () => {
-        await getCharas(charasID);
-      }, 4000);
-    };
-
-    const getCharas = async (charasID) => {
+    const fetchData = async (charasID) => {
       try {
         const promises = charasID.map(async (id) => {
           const res = await fetch(
@@ -46,24 +40,38 @@ export const Gameboard = () => {
             return retryFetch();
           }
 
-          return await res.json();
+          if (res.ok) {
+            return await res.json();
+          }
         });
 
-        const charasData = await Promise.all(promises);
-
-        const allChara = charasData.map((chara) => ({
-          id: uuidv4(),
-          mal_id: chara.data.mal_id,
-          name: chara.data.name,
-          image: chara.data.images.jpg.image_url,
-          visited: false,
-        }));
-
-        setCharacters(allChara);
-        setIsLoaded(true);
+        return promises;
       } catch (error) {
         console.error("Could not fetch character ", error);
       }
+    };
+
+    const retryFetch = () => {
+      setTimeout(async () => {
+        await fetchData(charasID);
+      }, 4000);
+    };
+
+    const getCharas = async (charasID) => {
+      const promises = await fetchData(charasID);
+
+      const charasData = await Promise.all(promises);
+
+      const allChara = charasData.map((chara) => ({
+        id: uuidv4(),
+        mal_id: chara.data.mal_id,
+        name: chara.data.name,
+        image: chara.data.images.jpg.image_url,
+        visited: false,
+      }));
+
+      setCharacters(allChara);
+      setIsLoaded(true);
     };
 
     getCharas(charasID);
@@ -112,8 +120,12 @@ export const Gameboard = () => {
     return (
       <>
         <section className="gameboard flex flex-col bg-black/50">
-          <div className="header rounded-b-lg px-3 pt-3 pb-4 mb-6 flex flex-col items-center">
-            <img className="w-4/5 h-4/5" src={drLogo} alt="Danganronpa Logo" />
+          <div className="header rounded-b-lg px-3 pt-3 pb-4 mb-6 flex flex-col items-center md:bg-black/50">
+            <img
+              className="w-3/4 h-3/4 md:w-2/4 md:h-2/4"
+              src={drLogo}
+              alt="Danganronpa Logo"
+            />
 
             <h2 className="font-semibold text-lg mb-5 sm:text-2xl">
               Memory Card Game
@@ -121,14 +133,14 @@ export const Gameboard = () => {
 
             <div className="score flex flex-row justify-center gap-x-5 font-semibold text-base">
               <h2>
-                Score:{" "}
-                <span className="inline-block bg-white text-black ml-2 p-1">
+                Score{" "}
+                <span className="inline-block bg-white text-black ml-2 min-w-6 min-h-6">
                   {score}
                 </span>
               </h2>
               <h2>
-                Best Score:{" "}
-                <span className="inline-block bg-white text-black ml-2 p-1">
+                Best Score{" "}
+                <span className="inline-block bg-white text-black ml-2 min-w-6 min-h-6">
                   {bestScore}
                 </span>
               </h2>
