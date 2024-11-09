@@ -2,6 +2,7 @@ import { Card } from "./Card";
 import { useEffect, useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { shuffle } from "../utils/shuffle";
+import { fetchData } from "../utils/fetchData";
 import drLogo from "../assets/dr-logo.png";
 import monokumaDance from "../assets/loading.gif";
 
@@ -28,41 +29,12 @@ export const Gameboard = () => {
   useEffect(() => {
     shuffle(charasID);
 
-    const fetchData = async (charasID) => {
-      try {
-        const promises = charasID.map(async (id) => {
-          const res = await fetch(
-            `https://api.jikan.moe/v4/characters/${id}/full`,
-            { mode: "cors" }
-          );
-
-          if (res.status === 429) {
-            return retryFetch();
-          }
-
-          if (res.ok) {
-            return await res.json();
-          }
-        });
-
-        return promises;
-      } catch (error) {
-        console.error("Could not fetch character ", error);
-      }
-    };
-
-    const retryFetch = () => {
-      setTimeout(async () => {
-        await fetchData(charasID);
-      }, 4000);
-    };
-
     const getCharas = async (charasID) => {
-      const promises = await fetchData(charasID);
+      const promises = charasID.map((id) => fetchData(id, 3));
 
-      const charasData = await Promise.all(promises);
+      const charaDatas = await Promise.all(promises);
 
-      const allChara = charasData.map((chara) => ({
+      const allChara = charaDatas.map((chara) => ({
         id: uuidv4(),
         mal_id: chara.data.mal_id,
         name: chara.data.name,
