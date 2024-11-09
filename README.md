@@ -4,6 +4,18 @@ A board-type memory game that built in React. This game challenges user to click
 
 The score increases when each card being clicked, and the 'Best Score' keeps track of the highest score achieved during the round. The cards will shuffle each time a card is clicked.
 
+<img src="public/desktop-memory-game.png" alt="Desktop Preview" width="100%">
+
+_Desktop Preview_
+
+<img src="public/1_mobile-memory-game.png" alt="Mobile Preview 1" width="50%">
+
+_Mobile Preview 1_
+
+<img src="public/2_mobile-memory-game.png" alt="Mobile Preview 2" width="50%">
+
+_Mobile Preview 2_
+
 ## About API 💡
 
 This game uses anime/game characters from Danganronpa 1 & 2 (technically also 3) and uses Jikan API to retrieve images and information. For more details about this API visit [Jikan](https://jikan.moe/).
