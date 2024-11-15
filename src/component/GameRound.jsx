@@ -1,7 +1,41 @@
 import { Card } from "./Card";
 import drLogo from "../assets/dr-logo.png";
+import { ToggleMuteButton } from "./ToggleMuteButton";
+import { useEffect } from "react";
 
-export const GameRound = ({ score, bestScore, characters, handleClick }) => {
+export const GameRound = ({
+  score,
+  bestScore,
+  characters,
+  handleClick,
+  isMuted,
+  setIsMuted,
+  bgMusicRef,
+}) => {
+  useEffect(() => {
+    if (bgMusicRef.current) {
+      if (!isMuted) {
+        bgMusicRef.current.play();
+        bgMusicRef.current.volume = 1.0;
+        bgMusicRef.current.loop = true;
+      }
+
+      if (isMuted) {
+        bgMusicRef.current.volume = 0.0;
+      }
+    }
+  }, [bgMusicRef, isMuted]);
+
+  const muteSound = () => {
+    setIsMuted(true);
+    bgMusicRef.current.volume = 0.0;
+  };
+
+  const unmuteSound = () => {
+    setIsMuted(false);
+    bgMusicRef.current.volume = 0.0;
+  };
+
   return (
     <>
       <section className="gameboard flex flex-col bg-black/50">
@@ -39,6 +73,12 @@ export const GameRound = ({ score, bestScore, characters, handleClick }) => {
             );
           })}
         </div>
+
+        <ToggleMuteButton
+          isMuted={isMuted}
+          muteSound={muteSound}
+          unmuteSound={unmuteSound}
+        />
       </section>
     </>
   );

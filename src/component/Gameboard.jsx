@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { shuffle } from "../utils/shuffle";
 import { fetchData } from "../utils/fetchData";
 import { GameRound } from "./GameRound";
 import { GameClear } from "./GameClear";
-import { useWithSound } from "../utils/useWithSound";
+import bgMusic from "../assets/sounds/Beautiful Ruin (Summer Salt).mp3";
 import gameClearBGM from "../assets/sounds/Rare Present Get.mp3";
 import monokumaDance from "../assets/loading.gif";
 
@@ -14,7 +14,10 @@ export const Gameboard = () => {
   const [isGameClear, setIsGameClear] = useState(false);
   const [score, setScores] = useState(0);
   const [bestScore, setBestScores] = useState(0);
-  const { playSound } = useWithSound(gameClearBGM);
+  const [isMuted, setIsMuted] = useState(true);
+
+  const bgMusicRef = useRef(0);
+  const gameClearSoundRef = useRef(0);
 
   const charasID = useMemo(
     () => [
@@ -31,6 +34,9 @@ export const Gameboard = () => {
   );
 
   useEffect(() => {
+    bgMusicRef.current = new Audio(bgMusic);
+    gameClearSoundRef.current = new Audio(gameClearBGM);
+
     shuffle(charasID);
 
     const getCharas = async (charasID) => {
@@ -91,7 +97,17 @@ export const Gameboard = () => {
   if (score === 8) {
     const charasCopy = characters.slice();
 
-    playSound();
+    if (isMuted) {
+      gameClearSoundRef.current.volume = 0.0;
+    }
+
+    if (!isMuted) {
+      bgMusicRef.current.pause();
+      bgMusicRef.current.currentTime = 0;
+      gameClearSoundRef.current.volume = 1.0;
+      gameClearSoundRef.current.play();
+    }
+
     setBestScores(0);
     resetGame(charasCopy);
     setIsGameClear(true);
@@ -105,6 +121,9 @@ export const Gameboard = () => {
           bestScore={bestScore}
           characters={characters}
           handleClick={handleClick}
+          isMuted={isMuted}
+          setIsMuted={setIsMuted}
+          bgMusicRef={bgMusicRef}
         />
       </>
     );
@@ -118,7 +137,7 @@ export const Gameboard = () => {
   }
 
   return (
-    <div className="bg-black h-screen w-screen">
+    <div className="bg-black h-screen w-screen flex flex-col items-center justify-center">
       <img src={monokumaDance} alt="Loading" className="mb-5" />
       <h1>Loading...</h1>
     </div>

@@ -4,9 +4,19 @@
   text-align: center;
 }
 
+.icon-btn {
+  width: 3.75rem;
+  height: 3.75rem;
+}
+
 @media (min-width: 768px) {
   main {
     background-image: url('./assets/bg.jpeg');
+  }
+
+  .icon-btn {
+    width: 4.5rem;
+    height: 4.5rem;
   }
 }
 
