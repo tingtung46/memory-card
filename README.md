@@ -8,6 +8,10 @@ The score increases when each card being clicked, and the 'Best Score' keeps tra
 
 _Desktop Preview_
 
+<img src="public/desktop-game-clear.png" alt="Desktop Game Clear Preview" width="100%">
+
+_Desktop Game Clear Preview_
+
 <img src="public/1_mobile-memory-game.png" alt="Mobile Preview 1" width="50%">
 
 _Mobile Preview 1_
@@ -24,6 +28,7 @@ This game uses anime/game characters from Danganronpa 1 & 2 (technically also 3)
 
 1. A board game that contained 8 cards to get clicked.
 2. Current score and best score in every round.
+3. Game clear screen when all cards have been guessed correctly.
 
 ## Features 🚀
 
@@ -31,6 +36,8 @@ This game uses anime/game characters from Danganronpa 1 & 2 (technically also 3)
 - If the user clicks a card and get same one as an old one, the game round will end and the score will reset back to 0. The user can start again while keeping the best score from the last round.
 - As current round best score is bigger than older one, it will be updated with the bigger one.
 - Auto scroll to the top when the game round is over.
+- Background music and toggle sound button.
+- If the user has guessed correctly all cards, it will display game clear screen.
 
 ## Installation 🛠️
 
