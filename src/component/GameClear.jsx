@@ -10,7 +10,7 @@ export const GameClear = ({ setIsGameClear }) => {
   return (
     <>
       <section className="h-screen w-screen flex flex-col justify-center place-items-center gap-7 bg-black">
-        <div className="w-80 h-auto md:w-[40rem] md:h-auto border-double border-pink-600 border-8 rounded-lg">
+        <div className="game-clear w-80 h-auto md:w-[40rem] md:h-auto border-double border-pink-600 border-8 rounded-lg">
           <img className="w-full h-full" src={gameComplete} alt="Game Clear" />
         </div>
 

@@ -9,6 +9,20 @@
   height: 3.75rem;
 }
 
+.game-clear {
+  animation: 1s jump-in;
+}
+
+@keyframes jump-in {
+  from {
+    transform: rotateX(0) scale(0);
+  }
+
+  to {
+    transform: rotateX(360deg) scale(1);
+  }
+}
+
 @media (min-width: 768px) {
   main {
     background-image: url('./assets/bg.jpeg');
