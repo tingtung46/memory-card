@@ -2,7 +2,7 @@ export const Card = ({ handleClick, chara }) => {
   return (
     <>
       <div
-        className="card w-56 h-87.5 pb-3 pt-5 px-5 rounded-2xl bg-pink-600 mx-auto cursor-pointer"
+        className="card w-56 h-87.5 pb-3 pt-5 px-5 rounded-2xl bg-pink-600 mx-auto cursor-pointer active:border-solid active:border-white active:border-2"
         onClick={handleClick}
         data-id={chara.mal_id}
       >

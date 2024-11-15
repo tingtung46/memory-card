@@ -66,7 +66,7 @@ export const GameRound = ({
           </div>
         </div>
 
-        <div className="cards-container flex flex-col gap-y-3.5 p-4 mx-auto sm:grid sm:grid-cols-[repeat(2,_224px)] sm:gap-10 md:grid md:grid-cols-[repeat(3,_224px)] md:gap-10 lg:grid-cols-[repeat(4,_224px)]">
+        <div className="cards-container flex flex-col gap-y-3.5 p-4 mx-auto sm:grid sm:grid-cols-[repeat(2,_224px)] sm:gap-10 md:grid md:grid-cols-[repeat(3,_224px)] md:gap-6 lg:grid-cols-[repeat(4,_224px)]">
           {characters.map((chara) => {
             return (
               <Card handleClick={handleClick} chara={chara} key={chara.id} />
